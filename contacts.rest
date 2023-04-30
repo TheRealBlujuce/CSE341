@@ -1,2 +1,5 @@
 GET http://localhost:3000/contacts
+
+GET http://cse341-assignments.onrender.com/contacts
+
 GET http://localhost:3000/contacts/644851a614f75f45734349b5
