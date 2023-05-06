@@ -14,7 +14,7 @@ const contactSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  favoriteColor: {
+  favColor: {
     type: String,
     required: true
   },
