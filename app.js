@@ -32,13 +32,13 @@ app.get('/contacts', contactController.getAllContacts);
 app.get('/contacts/:id', contactController.getContactById);
 
 // POST a new contact
-app.post('/contacts', contactController.createContact);
+app.get('/new-contact', contactController.createContact);
 
 // PUT update a contact by ID
-app.put('/contacts/:id', contactController.updateContact);
+app.put('/update-contact/:id', contactController.updateContact);
 
 // DELETE a contact by ID
-app.delete('/contacts/:id', contactController.deleteContact);
+app.delete('/delete-contact/:id', contactController.deleteContact);
 
 // Listen on Port 3000
 app.listen(3000, () => {

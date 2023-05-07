@@ -63,7 +63,6 @@ async function createContact(req, res) {
 }
 
 // Update a contact by ID
-// Update a contact by ID
 async function updateContact(req, res) {
   try {
     const id = req.params.id;
@@ -95,7 +94,7 @@ async function deleteContact(req, res) {
 
     if (result.deletedCount > 0) {
       res.setHeader('Content-Type', 'application/json');
-      res.sendStatus(204);
+      res.sendStatus(200);
     } else {
       res.setHeader('Content-Type', 'application/json');
       res.status(404).json({ message: 'Contact not found' });
@@ -112,3 +111,14 @@ module.exports.getContactById = getContactById;
 module.exports.createContact = createContact;
 module.exports.updateContact = updateContact;
 module.exports.deleteContact = deleteContact;
+
+
+testContact = new Contact()
+  {
+    firstName, "John",
+    lastName, "Doe",
+    email, "johndoe@example.com",
+    birthday, "10-10-2000",
+    favColor, "white"
+  }
+  
