@@ -1,10 +1,10 @@
-PUT http://localhost:3000/contacts/644851a614f75f45734349b5 HTTP/1.1
+PUT http://localhost:3000/contacts/6457195c5740ff3361e09c59 HTTP/1.1
 Content-Type: application/json
 
 {
-    "birthday": "10-4-1995",
-    "email": "willmarda@outlook.com",
-    "favColor": "orange",
-    "firstName": "Will",
-    "lastName": "Marda"
+    "birthday": "10/10/2000",
+    "email": "johndoe@example.com",
+    "favColor": "yellow",
+    "firstName": "John",
+    "lastName": "Doe"
 }
