@@ -113,12 +113,3 @@ module.exports.updateContact = updateContact;
 module.exports.deleteContact = deleteContact;
 
 
-testContact = new Contact()
-  {
-    firstName, "John",
-    lastName, "Doe",
-    email, "johndoe@example.com",
-    birthday, "10-10-2000",
-    favColor, "white"
-  }
-  
