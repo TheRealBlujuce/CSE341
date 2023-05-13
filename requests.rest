@@ -1,0 +1,35 @@
+
+GET http://localhost:3000/contacts
+
+GET http://cse341-assignments.onrender.com/contacts
+
+###
+GET http://localhost:3000/contacts/644851a614f75f45734349b5
+
+###
+POST /new-contact HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johndoe@example.com",
+  "birthday": "10-10-2000",
+  "favColor": "white"
+}
+
+###
+PUT http://localhost:3000/update-contact/645fe56f19f9f02d399b8868 HTTP/1.1
+Content-Type: application/json
+
+{
+    "birthday": "10/10/2000",
+    "email": "johndoe@example.com",
+    "favColor": "white",
+    "firstName": "John",
+    "lastName": "Doe"
+}
+
+###
+DELETE http://localhost:3000/delete-contact/645fe56f19f9f02d399b8868

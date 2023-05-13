@@ -3,6 +3,8 @@ const app = express();
 require('dotenv').config();
 const mongoose = require('mongoose');
 const connectionString = process.env.MONGO_DB_CONNECTION_STRING;
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 // Connect to MongoDB
 mongoose.connect(connectionString, {
@@ -13,6 +15,45 @@ mongoose.connect(connectionString, {
 }).catch(err => {
   console.error(err);
 });
+
+// create the options for the swagger ui
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'My API',
+      version: '1.0.0',
+      description: 'API documentation for My API',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Local server',
+      },
+      {
+        url: 'https://my-api.com',
+        description: 'Production server',
+      },
+    ],
+    components: {
+      schemas: {
+        Contact: {
+          type: 'object',
+          properties: {
+            firstName: { type: 'string' },
+            lastName: { type: 'string' },
+            email: { type: 'string' },
+            favColor: { type: 'string' },
+            birthday: { type: 'string', format: 'date' }
+          },
+          required: ['firstName', 'lastName', 'email', 'favColor', 'birthday']
+        }
+      }
+    },
+    basePath: '/'
+  },
+  apis: ['./controllers/*.js'],
+};
 
 // Import the contact controller
 const contactController = require('./controllers/contact-controller');
@@ -32,13 +73,18 @@ app.get('/contacts', contactController.getAllContacts);
 app.get('/contacts/:id', contactController.getContactById);
 
 // POST a new contact
-app.get('/new-contact', contactController.createContact);
+app.post('/new-contact', contactController.createContact);
 
 // PUT update a contact by ID
 app.put('/update-contact/:id', contactController.updateContact);
 
 // DELETE a contact by ID
 app.delete('/delete-contact/:id', contactController.deleteContact);
+
+// Route for Swagger Doc
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Listen on Port 3000
 app.listen(3000, () => {

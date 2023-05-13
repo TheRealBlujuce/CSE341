@@ -1,5 +1,20 @@
 const Contact = require('../models/contact');
 
+/**
+ * @swagger
+ * /contacts:
+ *   get:
+ *     summary: Get all contacts
+ *     description: Retrieve a list of all contacts
+ *     responses:
+ *       200:
+ *         description: A list of all contacts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ */
+
 // Get all contacts
 async function getAllContacts(req, res) {
   try {
@@ -13,6 +28,27 @@ async function getAllContacts(req, res) {
   }
 }
 
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   get:
+ *     summary: Get a specific contact using an ID
+ *     description: Retrieve a specific contact using their unique ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID of the contact to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A contact
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ */
 // Get a specific contact by ID
 async function getContactById(req, res) {
   try {
@@ -32,6 +68,38 @@ async function getContactById(req, res) {
   }
 }
 
+/**
+ * @swagger
+ * /new-contact:
+ *   post:
+ *     summary: Create a New Contact
+ *     description: Create a new contact and add it to the db
+ *     parameters:
+ *       - in: body
+ *         name: contact
+ *         description: The contact to create
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             firstName:
+ *               type: string
+ *             lastName:
+ *               type: string
+ *             email:
+ *               type: string
+ *             favColor:
+ *               type: string
+ *             birthday:
+ *               type: string
+ *     responses:
+ *       201:
+ *         description: A new Contact
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ */
 // Create a new contact
 async function createContact(req, res) {
   const { firstName, lastName, email, birthday, favColor } = req.body;
@@ -62,6 +130,52 @@ async function createContact(req, res) {
   }
 }
 
+/**
+ * @swagger
+ * /update-contact/:id:
+ *   put:
+ *     summary: Update Contact
+ *     description: Update a contact using their unique ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of contact to update
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: firstName
+ *         in: formData
+ *         description: First name of contact
+ *         required: true
+ *         type: string
+ *       - name: lastName
+ *         in: formData
+ *         description: Last name of contact
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         description: Email of contact
+ *         required: true
+ *         type: string
+ *       - name: favColor
+ *         in: formData
+ *         description: Favorite color of contact
+ *         required: true
+ *         type: string
+ *       - name: birthday
+ *         in: formData
+ *         description: Birthday of contact
+ *         required: true
+ *         type: string
+ *     responses:
+ *       204:
+ *         description: Update a contact
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ */
 // Update a contact by ID
 async function updateContact(req, res) {
   try {
@@ -70,7 +184,7 @@ async function updateContact(req, res) {
     const updatedContact = { firstName, lastName, email, birthday, favColor };
     const result = await Contact.updateOne({ _id: id }, updatedContact);
 
-    if (result.nModified > 0) {
+    if (result.Modified > 0) {
       res.setHeader('Content-Type', 'application/json');
       res.sendStatus(204);
     } else {
@@ -84,8 +198,27 @@ async function updateContact(req, res) {
   }
 }
 
-
-
+/**
+ * @swagger
+ * /delete-contact/:id:
+ *   delete:
+ *     summary: Delete a Contact
+ *     description: Delete a contact from the db
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID of the contact to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Deletes a contact from the database
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ */
 // Delete a contact by ID
 async function deleteContact(req, res) {
   try {
