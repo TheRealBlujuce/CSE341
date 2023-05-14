@@ -43,16 +43,16 @@ const options = {
             firstName: { type: 'string' },
             lastName: { type: 'string' },
             email: { type: 'string' },
-            favColor: { type: 'string' },
-            birthday: { type: 'string', format: 'date' }
+            birthday: { type: 'string'},
+            favColor: { type: 'string' }
           },
-          required: ['firstName', 'lastName', 'email', 'favColor', 'birthday']
+          required: ['firstName', 'lastName', 'email', 'birthday', 'favColor']
         }
       }
     },
     basePath: '/'
   },
-  apis: ['./controllers/*.js'],
+  apis: ['controllers/contact-controller.js'],
 };
 
 // Import the contact controller

@@ -70,31 +70,48 @@ async function getContactById(req, res) {
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Contact:
+ *       type: object
+ *       properties:
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         email:
+ *           type: string
+ *         birthday:
+ *           type: string
+ *         favColor:
+ *           type: string
+ *       required:
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - birthday
+ *         - favColor
+ *
  * /new-contact:
  *   post:
  *     summary: Create a New Contact
  *     description: Create a new contact and add it to the db
- *     parameters:
- *       - in: body
- *         name: contact
- *         description: The contact to create
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             firstName:
- *               type: string
- *             lastName:
- *               type: string
- *             email:
- *               type: string
- *             favColor:
- *               type: string
- *             birthday:
- *               type: string
+ *     requestBody:
+ *       description: The contact to create
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Contact'
  *     responses:
  *       201:
  *         description: A new Contact
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       400:
+ *         description: A field is missing data
  *         content:
  *           application/json:
  *             schema:
@@ -107,7 +124,7 @@ async function createContact(req, res) {
   if (!firstName || !lastName || !email || !birthday || !favColor) {
     return res.setHeader('Content-Type', 'application/json')
       .status(400)
-      .json({ error: 'All fields are required' }, console.log('Missing a Field.'));
+      .json({ error: 'All fields are required' }, console.log('Missing a Field.'), console.log('Request Body', req.body));
   }
 
   try {
@@ -158,14 +175,14 @@ async function createContact(req, res) {
  *         description: Email of contact
  *         required: true
  *         type: string
- *       - name: favColor
- *         in: formData
- *         description: Favorite color of contact
- *         required: true
- *         type: string
  *       - name: birthday
  *         in: formData
  *         description: Birthday of contact
+ *         required: true
+ *         type: string
+ *       - name: favColor
+ *         in: formData
+ *         description: Favorite color of contact
  *         required: true
  *         type: string
  *     responses:

@@ -7,7 +7,7 @@ GET http://cse341-assignments.onrender.com/contacts
 GET http://localhost:3000/contacts/644851a614f75f45734349b5
 
 ###
-POST /new-contact HTTP/1.1
+POST /-contact HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 
