@@ -149,10 +149,32 @@ async function createContact(req, res) {
 
 /**
  * @swagger
- * /update-contact/:id:
+ * components:
+ *   schemas:
+ *     Contact:
+ *       type: object
+ *       properties:
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         email:
+ *           type: string
+ *         birthday:
+ *           type: string
+ *         favColor:
+ *           type: string
+ *       required:
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - birthday
+ *         - favColor
+ *
+ * /update-contact/{id}:
  *   put:
  *     summary: Update Contact
- *     description: Update a contact using their unique ID
+ *     description: updating a contact in the db
  *     parameters:
  *       - name: id
  *         in: path
@@ -160,53 +182,39 @@ async function createContact(req, res) {
  *         required: true
  *         schema:
  *           type: string
- *       - name: firstName
- *         in: formData
- *         description: First name of contact
- *         required: true
- *         type: string
- *       - name: lastName
- *         in: formData
- *         description: Last name of contact
- *         required: true
- *         type: string
- *       - name: email
- *         in: formData
- *         description: Email of contact
- *         required: true
- *         type: string
- *       - name: birthday
- *         in: formData
- *         description: Birthday of contact
- *         required: true
- *         type: string
- *       - name: favColor
- *         in: formData
- *         description: Favorite color of contact
- *         required: true
- *         type: string
+ *     requestBody:
+ *       description: the contact to update
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Contact'
  *     responses:
- *       204:
- *         description: Update a contact
+ *       201:
+ *         description: The contact has been updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       404:
+ *         description: Failed to find contact
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Contact'
  */
-// Update a contact by ID
 async function updateContact(req, res) {
   try {
     const id = req.params.id;
-    const { firstName, lastName, email, birthday, favColor } = req.body;
-    const updatedContact = { firstName, lastName, email, birthday, favColor };
+    const updatedContact = req.body;
     const result = await Contact.updateOne({ _id: id }, updatedContact);
 
-    if (result.Modified > 0) {
+    if (result.nModified > 0) {
       res.setHeader('Content-Type', 'application/json');
       res.sendStatus(204);
     } else {
       res.setHeader('Content-Type', 'application/json');
-      res.status(404).json({ message: 'Contact not found' });
+      res.status(404).json({ message: 'Contact not found' }, console.log(id));
     }
   } catch (err) {
     console.error(err);
@@ -217,7 +225,7 @@ async function updateContact(req, res) {
 
 /**
  * @swagger
- * /delete-contact/:id:
+ * /delete-contact/{id}:
  *   delete:
  *     summary: Delete a Contact
  *     description: Delete a contact from the db
