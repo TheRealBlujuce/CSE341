@@ -31,7 +31,7 @@ const options = {
         description: 'Local server',
       },
       {
-        url: 'https://my-api.com',
+        url: 'https://cse341-assignments.onrender.com',
         description: 'Production server',
       },
     ],
